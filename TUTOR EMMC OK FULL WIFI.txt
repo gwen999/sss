@@ -1,0 +1,95 @@
+sudo nano /etc/lightdm/lightdm.conf.d/01_aml.conf    enter
+
+[SeatDefaults]
+autologin-user=gwen0x
+autologin-user-timeout=0
+
+Langsung saja jalankan kita akan coba install drivernya. Jalankan perintah berikut:
+
+cp wlan-black.deb /tmp  enter
+sudo dpkg -i wlan-black.deb
+
+Untuk menghubungkan Wifi bisa menggunakan Armbian Config:
+
+root@loksado:~# armbian-config
+Cek apakah Wifi berfungsi dengan baik.
+root@loksado:~# nmcli dev wifi list
+atau
+root@loksado:~# iwlist scan
+Untuk menghubungkan Wifi bisa menggunakan Armbian Config:
+
+root@loksado:~# armbian-config
+
+
+
+
+
+sudo apt-get update
+
+sudo apt-get upgrade -y
+
+sudo apt-get install git
+
+sudo apt-get install libcurl4-openssl-dev libssl-dev libjansson-dev automake autotools-dev build-essential -y
+
+sudo git clone --single-branch -b ARM https://github.com/monkins1010/ccminer.git
+
+cd ccminer
+
+sudo chmod +x build.sh
+
+sudo chmod +x configure.sh
+
+sudo chmod +x autogen.sh
+
+sudo chmod +x ccminer
+
+sudo ./build.sh
+
+sudo nano run.sh
+
+hapus semua dan ganti dengan
+
+===========================versi dekstop
+/home/gwen00/ccminer/ccminer -a verus -o stratum+tcp://verushash.asia.mine.zergpool.com:3300 -u TECSG5wFAJBm2xhbfnzEuPyGdTi4YsF4vv.Gwen -p c=TRX,mc=DOGE -t 4
+
+===========================vversi root
+/root/ccminer/ccminer -a verus -o stratum+tcp://verushash.asia.mine.zergpool.com:3300 -u TECSG5wFAJBm2xhbfnzEuPyGdTi4YsF4vv.stb1 -p c=TRX,mc=DOGE -t 4
+
+===========================buat file autorun.sh isi dengan versi root
+nano autorun.sh
+
+/root/ccminer/ccminer -a verus -o stratum+tcp://verushash.asia.mine.zergpool.com:3300 -u TECSG5wFAJBm2xhbfnzEuPyGdTi4YsF4vv.stb1 -p c=TRX,mc=DOGE -t 4
+
+sudo crontab -e
+dekstop
+@reboot bash /home/gwen00/ccminer/run.sh > /home/gwen00/ccminer/miner.log 2>&1
+
+root
+@reboot bash /root/autorun.sh > /root/autorun.log 2>&1
+#*/5 * * * * bash /root/monitoring.sh > /root/monitoring.log 2>&1
+#0 */4 * * * /sbin/shutdown -r now
+
+
+15.ganti nama worker dibelakang walet setelah titik,mc ganti bebas dengan coin lain
+lalu tekan ctrl+x lalu y lalu enter
+16.untuk menjalankan ketik ./run.sh enter
+   DONE!!!
+buat script auto run
+
+setelah sudah di dekstop lakukan pemindahan driver wifi
+#copy file driver dar microsd/flashdisk
+#taruh di home user dan copy juga ke file sistem dengancara :
+#1.masuk ke direktori dtb
+   File system-boot-dtb-amlogic
+   copy lokasi
+ 2.buka terminal emulator masuk sebagai root
+   ketik sudo su-masukan pasword user
+ 3.ketik ls
+ 4.pastikan file driver terdeteksi
+ 5.ketik cp b860h-5.9.0.dtb /boot/dtb/amlogic/   enter
+ 5.ketik cd /boot/extlinux/
+ 6.ls dan edit ectxlinux ketikan nano extlinux.conf    enter
+ 7.kasi tanda pager fdt p212 dan hapus pager no 2 dari bawah
+ 8.tekan CTRL+X,Y enter
+ 9.ketik reboot
